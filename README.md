@@ -216,13 +216,13 @@ Open three terminals and run in this exact order:
 
 ## The Three Acts Explained
 
-### Act 1 — Honest ECDH (~3 minutes)
+### Act 1 — Honest ECDH
 
 Alice and Bob each generate a P-256 keypair independently. They exchange their public keys over TCP. Each party computes the shared secret as the x-coordinate of `private_key * peer_public_key`. Both arrive at the same scalar value through the mathematics of elliptic curve groups. They then derive a symmetric AES-256 session key using HKDF-SHA-256 and enter an encrypted chat.
 
 Key observation: the public keys travel in plaintext over the network — this is expected and safe. The private keys never leave their respective processes. Wireshark shows only ciphertext after the handshake.
 
-### Act 2 — MITM Attack (~4 minutes)
+### Act 2 — MITM Attack 
 
 Oscar positions himself between Alice and Bob. He performs two independent ECDH handshakes:
 
@@ -235,7 +235,7 @@ Neither Alice nor Bob has any indication of Oscar's presence except for the fing
 
 **Root cause:** Unauthenticated ECDH provides no binding between a public key and an identity. Any party that can intercept the initial exchange can substitute their own public key.
 
-### Act 3 — Certificate Defence (~5 minutes)
+### Act 3 — Certificate Defence
 
 A Certificate Authority (CA) is introduced. The CA holds a P-256 keypair. Before the demo, Alice and Bob each receive a certificate: an ECDSA signature by the CA over `SHA-256(identity || public_key)`. Both Alice and Bob pre-share the CA's public key.
 
@@ -421,6 +421,13 @@ On older cmd.exe, use MSYS2's mintty terminal instead.
 
 ---
 
+## Demo Screenshots
+
+<img width="1443" height="825" alt="Screenshot 2026-04-12 230115" src="https://github.com/user-attachments/assets/b5d796d6-d318-4717-8a1e-c4c29798fa4c" />
+
+<img width="1451" height="837" alt="Screenshot 2026-04-12 230559" src="https://github.com/user-attachments/assets/e21bc10e-0ce4-44f6-b77a-0b1406ffb65b" />
+
+---
 ## References
 
 1. NIST FIPS 186-4 — *Digital Signature Standard*, Appendix D.1.2.3 (P-256 fast reduction)
